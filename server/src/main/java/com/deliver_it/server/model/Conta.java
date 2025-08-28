@@ -2,6 +2,7 @@ package com.deliver_it.server.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -17,7 +18,7 @@ public class Conta {
     private String nome;
 
     @Column(name = "valor_original", nullable = false)
-    private Double valorOriginal;
+    private BigDecimal valorOriginal;
 
     @Column(name = "data_vencimento", nullable = false)
     private LocalDate dataVencimento;
@@ -41,11 +42,11 @@ public class Conta {
         this.nome = nome;
     }
 
-    public Double getValorOriginal() {
+    public BigDecimal getValorOriginal() {
         return valorOriginal;
     }
 
-    public void setValorOriginal(Double valorOriginal) {
+    public void setValorOriginal(BigDecimal valorOriginal) {
         this.valorOriginal = valorOriginal;
     }
 
