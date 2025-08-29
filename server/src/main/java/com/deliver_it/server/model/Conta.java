@@ -26,8 +26,11 @@ public class Conta {
     @Column(name = "data_vencimento", nullable = false)
     private LocalDate dataVencimento;
 
-    @Column(name = "data_pagamento", nullable = false)
+    @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
+
+    @Column(name = "quitado")
+    private boolean quitado;
 
     public Integer getContaId() {
         return contaId;
