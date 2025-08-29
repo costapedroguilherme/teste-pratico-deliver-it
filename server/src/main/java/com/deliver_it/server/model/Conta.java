@@ -79,4 +79,14 @@ public class Conta {
     public void setDataPagamento(LocalDate dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
+
+    public boolean getQuitado() {
+        return quitado;
+    }
+
+    public void setQuitado(boolean quitado) {
+        this.quitado = quitado;
+    }
+
+    public
 }
