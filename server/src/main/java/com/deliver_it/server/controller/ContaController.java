@@ -25,4 +25,9 @@ public class ContaController {
     public void addNewConta(@RequestBody Conta conta) {
         contaService.insertConta(conta);
     }
+
+    @DeleteMapping("{id}")
+    public void deleteConta(@PathVariable Integer id) {
+        contaService.deleteConta(id);
+    }
 }

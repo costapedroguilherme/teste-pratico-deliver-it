@@ -49,6 +49,16 @@ public class ContaService {
         contaRepository.save(conta);
     }
 
+    public void deleteConta(Integer id) {
+        boolean exists = contaRepository.existsById(id);
+        if (!exists) {
+            throw new IllegalStateException (
+                    id + " não encontrado"
+            );
+        }
+        contaRepository.deleteById(id);
+    }
+
     @EventListener(ApplicationReadyEvent.class)
     public void appListener() throws InterruptedException {
         updateValorCorrigido();
