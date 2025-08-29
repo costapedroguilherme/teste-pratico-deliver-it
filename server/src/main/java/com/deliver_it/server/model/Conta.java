@@ -20,6 +20,9 @@ public class Conta {
     @Column(name = "valor_original", nullable = false)
     private BigDecimal valorOriginal;
 
+    @Column(name = "valor_corrigido", nullable = true)
+    private BigDecimal valorCorrigido;
+
     @Column(name = "data_vencimento", nullable = false)
     private LocalDate dataVencimento;
 
@@ -48,6 +51,14 @@ public class Conta {
 
     public void setValorOriginal(BigDecimal valorOriginal) {
         this.valorOriginal = valorOriginal;
+    }
+
+    public BigDecimal getValorCorrigido() {
+        return valorCorrigido;
+    }
+
+    public void setValorCorrigido(BigDecimal valorCorrigido) {
+        this.valorCorrigido = valorCorrigido;
     }
 
     public LocalDate getDataVencimento() {
