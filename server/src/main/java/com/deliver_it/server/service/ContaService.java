@@ -1,7 +1,10 @@
 package com.deliver_it.server.service;
 
+import com.deliver_it.server.exception.ContaMissingDataException;
+import com.deliver_it.server.exception.ContaNotFoundException;
 import com.deliver_it.server.model.Conta;
 import com.deliver_it.server.repo.ContaRepository;
+import com.deliver_it.server.service.vo.ContaVO;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,7 +27,11 @@ public class ContaService {
         return contaRepository.findAll();
     }
 
-    public void insertConta(Conta conta) {
+    public Conta insertConta(Conta conta) throws ContaMissingDataException {
+        ContaVO contaVO = new ContaVO(conta.getNome(),
+                conta.getValorOriginal(),
+                conta.getDataVencimento());
+        contaVO.validate();
         conta.setValorCorrigido(conta.getValorOriginal());
         if (conta.getDataPagamento() != null) {
             conta.setQuitado(true);
@@ -46,14 +53,14 @@ public class ContaService {
                 conta.setQtdDiasAtraso((int) diasAtraso);
             }
         }
-        contaRepository.save(conta);
+        return contaRepository.save(conta);
     }
 
     public void deleteConta(Integer id) {
         boolean exists = contaRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException (
-                    id + " não encontrado"
+            throw new ContaNotFoundException(
+                    "Conta com o id " + id + " não encontrada!"
             );
         }
         contaRepository.deleteById(id);
@@ -61,8 +68,8 @@ public class ContaService {
 
     public void updateConta(Integer id) {
         Conta conta = contaRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(
-                        id + " não encontrado"));;
+                .orElseThrow(() -> new ContaNotFoundException(
+                        "Conta com o id " + id + " não encontrada!"));
         conta.setQuitado(true);
         contaRepository.save(conta);
     }

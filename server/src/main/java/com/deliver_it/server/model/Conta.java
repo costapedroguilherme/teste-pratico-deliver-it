@@ -36,6 +36,23 @@ public class Conta {
     @Column(name = "quitado")
     private boolean quitado;
 
+    public Conta(){}
+
+    public Conta(
+            Integer contaId, String nome, BigDecimal valorOriginal,
+            BigDecimal valorCorrigido, LocalDate dataVencimento,
+            LocalDate dataPagamento, int qtdDiasAtraso,
+            boolean quitado) {
+        this.contaId = contaId;
+        this.nome = nome;
+        this.valorOriginal = valorOriginal;
+        this.valorCorrigido = valorCorrigido;
+        this.dataPagamento = dataPagamento;
+        this.dataVencimento = dataVencimento;
+        this.qtdDiasAtraso = qtdDiasAtraso;
+        this.quitado = quitado;
+    }
+
     public Integer getContaId() {
         return contaId;
     }

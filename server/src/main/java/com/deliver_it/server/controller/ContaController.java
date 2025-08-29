@@ -1,7 +1,13 @@
 package com.deliver_it.server.controller;
 
+import com.deliver_it.server.dto.ContaResponse;
+import com.deliver_it.server.dto.ErrorMessage;
+import com.deliver_it.server.dto.SuccessMessage;
+import com.deliver_it.server.exception.ContaMissingDataException;
+import com.deliver_it.server.exception.ContaNotFoundException;
 import com.deliver_it.server.model.Conta;
 import com.deliver_it.server.service.ContaService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,17 +28,37 @@ public class ContaController {
     }
 
     @PostMapping
-    public void addNewConta(@RequestBody Conta conta) {
-        contaService.insertConta(conta);
+    public ResponseEntity<?> addNewConta(@RequestBody Conta conta) {
+        try {
+            return ResponseEntity.ok(new ContaResponse(contaService.insertConta(conta)));
+        } catch (ContaMissingDataException e) {
+            return ResponseEntity.status(400).body(new ErrorMessage(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ErrorMessage("Falha desconhecida!"));
+        }
     }
 
     @DeleteMapping("{id}")
-    public void deleteConta(@PathVariable Integer id) {
-        contaService.deleteConta(id);
+    public ResponseEntity<?> deleteConta(@PathVariable Integer id) {
+        try {
+            contaService.deleteConta(id);
+            return ResponseEntity.ok(new SuccessMessage("Conta excluída com sucesso!"));
+        } catch (ContaNotFoundException e) {
+            return ResponseEntity.status(404).body(new ErrorMessage(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ErrorMessage("Falha desconhecida!"));
+        }
     }
 
     @PutMapping("/quitado/{id}")
-    public void updateConta(@PathVariable Integer id) {
-        contaService.updateConta(id);
+    public ResponseEntity<?> updateConta(@PathVariable Integer id) {
+        try {
+            contaService.updateConta(id);
+            return ResponseEntity.ok(new SuccessMessage("Conta atualizada com sucesso!"));
+        } catch (ContaNotFoundException e) {
+            return ResponseEntity.status(404).body(new ErrorMessage(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ErrorMessage("Falha desconhecida!"));
+        }
     }
 }
