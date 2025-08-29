@@ -30,4 +30,9 @@ public class ContaController {
     public void deleteConta(@PathVariable Integer id) {
         contaService.deleteConta(id);
     }
+
+    @PutMapping("/quitado/{id}")
+    public void updateConta(@PathVariable Integer id) {
+        contaService.updateConta(id);
+    }
 }
