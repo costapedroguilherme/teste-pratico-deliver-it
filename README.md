@@ -32,7 +32,7 @@ Agora é só executar o projeto e testar as APIs!
 A aplicação estará disponível em http://localhost:8080/api/v1/conta.
 
 ## 🧪 Exemplos de testes
-### POST
+##### POST
 URL =  http://localhost:8080/api/v1/conta
 ```json
 {
@@ -42,11 +42,11 @@ URL =  http://localhost:8080/api/v1/conta
 }
 ```
 
-### GET
+##### GET
 URL =   http://localhost:8080/api/v1/conta
 
-### DELETE
-URL =  http://localhost:8080/api/v1/conta/*[ID]*
+##### DELETE
+URL =  http://localhost:8080/api/v1/conta/ _[ID]_
 
-### PUT
-URL =  http://localhost:8080/api/v1/conta/*[ID]*
+##### PUT
+URL =  http://localhost:8080/api/v1/conta/ _[ID]_
