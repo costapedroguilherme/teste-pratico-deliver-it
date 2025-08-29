@@ -1,5 +1,5 @@
 CREATE TABLE tbl_conta (
-    conta_id INTEGER PRIMARY KEY,
+    conta_id serial PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     valor_original NUMERIC(1000,2) NOT NULL,
     valor_corrigido NUMERIC(1000,2),
