@@ -3,6 +3,7 @@ package com.deliver_it.server.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Entity
@@ -28,6 +29,9 @@ public class Conta {
 
     @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
+
+    @Column(name = "qtd_dias_atraso")
+    private int qtdDiasAtraso;
 
     @Column(name = "quitado")
     private boolean quitado;
@@ -80,6 +84,14 @@ public class Conta {
         this.dataPagamento = dataPagamento;
     }
 
+    public int getQtdDiasAtraso() {
+        return qtdDiasAtraso;
+    }
+
+    public void setQtdDiasAtraso(int qtdDiasAtraso) {
+        this.qtdDiasAtraso = qtdDiasAtraso;
+    }
+
     public boolean getQuitado() {
         return quitado;
     }
@@ -88,5 +100,22 @@ public class Conta {
         this.quitado = quitado;
     }
 
-    public
+    public static BigDecimal calcularValorCorrigido(BigDecimal valorOriginal, long diasAtraso) {
+        if (diasAtraso <= 3) {
+            return valorOriginal.add(calcularValorPorcentagem
+                    (valorOriginal, 2, 0.1 * diasAtraso))
+                    .setScale(2, RoundingMode.HALF_UP);
+        } else if (diasAtraso <= 5) {
+            return valorOriginal.add(calcularValorPorcentagem
+                    (valorOriginal, 3, 0.2 * diasAtraso))
+                    .setScale(2, RoundingMode.HALF_UP);
+        }
+        return valorOriginal.add(calcularValorPorcentagem
+                (valorOriginal, 5, 0.3 * diasAtraso))
+                .setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private static BigDecimal calcularValorPorcentagem(BigDecimal valorOriginal, int multa, double juros) {
+        return valorOriginal.multiply(BigDecimal.valueOf((double)multa/100)).add(valorOriginal.multiply(BigDecimal.valueOf(juros/100)));
+    }
 }
